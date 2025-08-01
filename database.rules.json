@@ -1,0 +1,41 @@
+{
+  "rules": {
+    "skills": {
+      ".read": true,
+      ".write": true,
+      "$skillId": {
+        ".validate": "newData.hasChildren(['title', 'description', 'owner', 'timestamp']) && newData.child('title').isString() && newData.child('description').isString() && newData.child('owner').isString() && newData.child('timestamp').isNumber()"
+      }
+    },
+    "requests": {
+      ".read": true,
+      ".write": true,
+      "$requestId": {
+        ".validate": "newData.hasChildren(['skillId', 'skillTitle', 'skillOwner', 'requester', 'message', 'status', 'timestamp']) && newData.child('skillId').isString() && newData.child('skillTitle').isString() && newData.child('skillOwner').isString() && newData.child('requester').isString() && newData.child('message').isString() && newData.child('status').isString() && newData.child('timestamp').isNumber()"
+      }
+    },
+    "chats": {
+      ".read": true,
+      ".write": true,
+      "$chatId": {
+        "participants": {
+          ".validate": "newData.isString()"
+        },
+        "skillTitle": {
+          ".validate": "newData.isString()"
+        },
+        "messages": {
+          "$messageId": {
+            ".validate": "newData.hasChildren(['sender', 'message', 'timestamp']) && newData.child('sender').isString() && newData.child('message').isString() && newData.child('timestamp').isNumber()"
+          }
+        },
+        "lastActivity": {
+          ".validate": "newData.isNumber()"
+        },
+        "created": {
+          ".validate": "newData.isNumber()"
+        }
+      }
+    }
+  }
+}

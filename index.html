@@ -3,34 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SkillSwap - Share & Learn Skills 🚀</title>
+    <title>SkillSwap - Share & Learn Together 🚀</title>
     <link rel="stylesheet" href="styles/main.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <!-- Welcome Screen -->
-    <div id="welcome-screen" class="welcome-screen">
-        <div class="welcome-container">
-            <h1 class="welcome-title">🎯 Welcome to SkillSwap!</h1>
-            <div class="username-display">
-                <p>Your guest name:</p>
-                <h2 id="guest-username" class="guest-username"></h2>
+    <!-- Welcome Modal -->
+    <div id="welcomeModal" class="modal">
+        <div class="modal-content welcome-modal">
+            <div class="welcome-header">
+                <h1>🌟 Welcome to SkillSwap!</h1>
+                <p id="guestWelcome">Ready to learn or share a skill?</p>
             </div>
-            <p class="welcome-message">Ready to learn or share a skill?</p>
-            <button id="enter-app" class="cta-button">🚀 Let's Go!</button>
+            <div class="welcome-actions">
+                <button id="startButton" class="btn btn-primary">🚀 Let's Get Started!</button>
+            </div>
         </div>
     </div>
 
     <!-- Main App -->
-    <div id="main-app" class="main-app hidden">
+    <div id="app" class="app-container">
         <!-- Header -->
         <header class="header">
             <div class="header-content">
-                <h1 class="logo">🎯 SkillSwap</h1>
+                <div class="logo">
+                    <h1>🔄 SkillSwap</h1>
+                </div>
                 <div class="user-info">
-                    <span id="header-username" class="username-badge"></span>
+                    <span id="userDisplay" class="username-badge"></span>
                 </div>
             </div>
         </header>
@@ -39,20 +42,22 @@
         <nav class="sidebar">
             <ul class="nav-list">
                 <li class="nav-item active" data-section="learn">
-                    <span class="nav-icon">🧠</span>
-                    <span class="nav-text">Skills to Learn</span>
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>🧠 Skills to Learn</span>
                 </li>
                 <li class="nav-item" data-section="share">
-                    <span class="nav-icon">💡</span>
-                    <span class="nav-text">Skills to Share</span>
+                    <i class="fas fa-lightbulb"></i>
+                    <span>💡 Skills to Share</span>
                 </li>
                 <li class="nav-item" data-section="requests">
-                    <span class="nav-icon">✉️</span>
-                    <span class="nav-text">Requests Sent</span>
+                    <i class="fas fa-paper-plane"></i>
+                    <span>✉️ Requests Sent</span>
+                    <span id="requestsCount" class="badge">0</span>
                 </li>
                 <li class="nav-item" data-section="chat">
-                    <span class="nav-icon">💬</span>
-                    <span class="nav-text">Chat</span>
+                    <i class="fas fa-comments"></i>
+                    <span>💬 Chat</span>
+                    <span id="chatNotifications" class="badge notification-badge hidden">0</span>
                 </li>
             </ul>
         </nav>
@@ -60,136 +65,141 @@
         <!-- Main Content -->
         <main class="main-content">
             <!-- Skills to Learn Section -->
-            <section id="learn-section" class="content-section active">
+            <section id="learnSection" class="content-section active">
                 <div class="section-header">
                     <h2>🧠 Skills to Learn</h2>
-                    <p>Discover amazing skills shared by the community</p>
+                    <p>Discover amazing skills shared by the community!</p>
                 </div>
-                <div id="skills-grid" class="skills-grid">
+                <div class="skills-grid" id="skillsGrid">
                     <!-- Skills will be dynamically loaded here -->
                 </div>
-                <div id="no-skills" class="empty-state hidden">
-                    <div class="empty-icon">📚</div>
+                <div id="noSkillsMessage" class="empty-state">
+                    <div class="empty-icon">🎯</div>
                     <h3>No skills available yet</h3>
                     <p>Be the first to share a skill with the community!</p>
                 </div>
             </section>
 
             <!-- Skills to Share Section -->
-            <section id="share-section" class="content-section">
+            <section id="shareSection" class="content-section">
                 <div class="section-header">
                     <h2>💡 Share Your Skills</h2>
-                    <p>Help others learn something new</p>
+                    <p>Help others learn something new!</p>
                 </div>
                 <div class="share-form-container">
-                    <form id="skill-form" class="skill-form">
+                    <form id="shareSkillForm" class="share-form">
                         <div class="form-group">
-                            <label for="skill-title">Skill Title</label>
-                            <input type="text" id="skill-title" placeholder="e.g., Video Editing" required>
+                            <label for="skillTitle">Skill Title</label>
+                            <input type="text" id="skillTitle" placeholder="e.g., Video Editing, Guitar Playing, Cooking..." required>
                         </div>
                         <div class="form-group">
-                            <label for="skill-description">Description</label>
-                            <textarea id="skill-description" placeholder="e.g., I can help you master CapCut or DaVinci Resolve" required></textarea>
+                            <label for="skillDescription">Description</label>
+                            <textarea id="skillDescription" rows="4" placeholder="Tell others what you can teach them and how you can help..." required></textarea>
                         </div>
-                        <button type="submit" class="submit-button">🚀 Share Skill</button>
+                        <button type="submit" class="btn btn-primary btn-share">
+                            🚀 Share Skill
+                        </button>
                     </form>
                 </div>
-                <div class="my-skills-container">
+                <div id="mySkills" class="my-skills">
                     <h3>Your Shared Skills</h3>
-                    <div id="my-skills" class="my-skills-grid">
-                        <!-- User's skills will be displayed here -->
+                    <div id="mySkillsList" class="skills-grid">
+                        <!-- User's skills will be shown here -->
                     </div>
                 </div>
             </section>
 
-            <!-- Requests Sent Section -->
-            <section id="requests-section" class="content-section">
+            <!-- Requests Section -->
+            <section id="requestsSection" class="content-section">
                 <div class="section-header">
-                    <h2>✉️ Requests Sent</h2>
+                    <h2>✉️ Your Requests</h2>
                     <p>Track your learning requests</p>
                 </div>
-                <div id="requests-list" class="requests-list">
-                    <!-- Requests will be dynamically loaded here -->
+                <div id="requestsList" class="requests-list">
+                    <!-- Requests will be shown here -->
                 </div>
-                <div id="no-requests" class="empty-state">
-                    <div class="empty-icon">📤</div>
+                <div id="noRequestsMessage" class="empty-state">
+                    <div class="empty-icon">📮</div>
                     <h3>No requests sent yet</h3>
                     <p>Browse skills and send your first learning request!</p>
                 </div>
             </section>
 
             <!-- Chat Section -->
-            <section id="chat-section" class="content-section">
+            <section id="chatSection" class="content-section">
                 <div class="section-header">
                     <h2>💬 Chat</h2>
                     <p>Connect with skill sharers</p>
                 </div>
-                <div class="chat-container">
-                    <div id="chat-list" class="chat-list">
-                        <!-- Chat rooms will be listed here -->
-                    </div>
-                    <div id="chat-window" class="chat-window hidden">
-                        <div class="chat-header">
-                            <h3 id="chat-title">Chat with Guest_User</h3>
-                            <button id="close-chat" class="close-chat">✕</button>
-                        </div>
-                        <div id="chat-messages" class="chat-messages">
-                            <!-- Messages will appear here -->
-                        </div>
-                        <div class="chat-input-container">
-                            <input type="text" id="chat-input" placeholder="Type your message...">
-                            <button id="send-message" class="send-button">Send</button>
-                        </div>
-                    </div>
+                <div id="chatList" class="chat-list">
+                    <!-- Chat rooms will be shown here -->
                 </div>
-                <div id="no-chats" class="empty-state">
-                    <div class="empty-icon">💬</div>
+                <div id="noChatMessage" class="empty-state">
+                    <div class="empty-icon">💭</div>
                     <h3>No active chats</h3>
-                    <p>Start learning a skill to begin chatting!</p>
+                    <p>Start by requesting to learn a skill!</p>
                 </div>
             </section>
         </main>
     </div>
 
     <!-- Request Modal -->
-    <div id="request-modal" class="modal hidden">
+    <div id="requestModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>🌟 Request to Learn</h3>
-                <button id="close-modal" class="close-modal">✕</button>
+                <h3>📩 Request to Learn</h3>
+                <button class="close-btn" id="closeRequestModal">&times;</button>
             </div>
             <div class="modal-body">
-                <p id="modal-skill-info"></p>
-                <div class="form-group">
-                    <label for="request-message">Your message to the skill owner:</label>
-                    <textarea id="request-message" placeholder="Hi! I'd love to learn this skill from you. When would be a good time to connect?"></textarea>
+                <p id="requestSkillInfo"></p>
+                <textarea id="requestMessage" placeholder="Hi! I'd love to learn this skill from you. When would be a good time to connect?" rows="4"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button id="cancelRequest" class="btn btn-secondary">Cancel</button>
+                <button id="sendRequest" class="btn btn-primary">📤 Send Request</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Modal -->
+    <div id="chatModal" class="modal">
+        <div class="modal-content chat-modal">
+            <div class="modal-header">
+                <h3 id="chatTitle">💬 Chat</h3>
+                <button class="close-btn" id="closeChatModal">&times;</button>
+            </div>
+            <div class="chat-container">
+                <div id="chatMessages" class="chat-messages">
+                    <!-- Messages will appear here -->
                 </div>
-                <div class="modal-actions">
-                    <button id="cancel-request" class="cancel-button">Cancel</button>
-                    <button id="send-request" class="confirm-button">📤 Send Request</button>
+                <div class="chat-input">
+                    <input type="text" id="messageInput" placeholder="Type your message...">
+                    <button id="sendMessage" class="btn btn-primary">📨</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Notification Toast -->
-    <div id="notification" class="notification hidden">
-        <span id="notification-text"></span>
+    <!-- Toast Notifications -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="loading-spinner hidden">
+        <div class="spinner"></div>
     </div>
 
-    <!-- Firebase SDK -->
-    <script type="module" src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
-    <script type="module" src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js"></script>
-    
-    <!-- EmailJS -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    
-    <!-- Custom Scripts -->
+    <!-- Scripts -->
+    <script type="module" src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script src="js/config.js"></script>
-    <script src="js/utils.js"></script>
     <script src="js/firebase.js"></script>
-    <script src="js/email.js"></script>
-    <script src="js/chat.js"></script>
-    <script src="js/app.js"></script>
+    <script src="js/utils.js"></script>
+    <script>
+        // Initialize the app when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initApp();
+        });
+    </script>
 </body>
 </html>

@@ -1,0 +1,38 @@
+{
+  "name": "skillswap",
+  "version": "1.0.0",
+  "description": "A modern skill-sharing platform for the Gen-Z community",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve .",
+    "dev": "npx live-server --port=3000",
+    "build": "echo 'No build step required for vanilla JS app'",
+    "deploy": "firebase deploy",
+    "firebase:init": "firebase init hosting",
+    "firebase:serve": "firebase serve"
+  },
+  "keywords": [
+    "skill-sharing",
+    "education",
+    "community",
+    "gen-z",
+    "firebase",
+    "javascript",
+    "css3",
+    "html5"
+  ],
+  "author": "SkillSwap Team",
+  "license": "MIT",
+  "devDependencies": {
+    "live-server": "^1.2.2",
+    "serve": "^14.2.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/skillswap.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/skillswap/issues"
+  },
+  "homepage": "https://skillswap-app.web.app"
+}
